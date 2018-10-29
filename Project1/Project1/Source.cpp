@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "Action.h"
 
 using namespace std;
 
@@ -11,138 +12,13 @@ struct car
 	string info;
 };
 
-class func 
-{
-public :
-	void find()
-	{
-		cout << "Имя машины" << endl;
-		cin >> input_name;
 
-		file.open(input_name + ".txt");
-		if (!file.is_open())
-		{
-			cout << "Машина не найдена!" << endl;
-		}
-		else
-		{
-			cout << "Успешно!" << endl;
-
-			cout << "1.Открыть 2.Закрыть" << endl;
-			cin >> a;
-
-			if (a == 1)
-			{
-				string str;
-				 while (!file.eof())
-				{	
-					 str = "";
-					 getline(file,str);
-					 cout << str << endl;
-				}
-			}
-
-		}
-
-	}
-
-	void add(car buy)
-	{
-		cout << "-- Введите данные о машине --" << endl;
-
-
-		cout << "Введите имя: " << endl;
-		cin >> buy.name;
-		cout << "Введите цену: " << endl;
-		cin >> buy.price;
-		cout << "Введите информацию :" << endl;
-		cin >> buy.info;
-
-		cout << "------------" << endl;
-
-		cout << "Данные :/n" << endl;
-		cout << "Имя: " << buy.name << endl;
-		cout << "Цена: " << buy.price << endl;
-		cout << "Информация: " << buy.info << endl;
-
-		cout << "------------" << endl;
-		 
-		cout << "1.Изменить 2.Сохранить" << endl;
-		cin >> a;
-		if (a == 1)
-		{
-			add(buy);
-		} 
-		else
-		{
-			file_.open(buy.name + ".txt");
-			file_ << "-------------" << endl;
-			file_ << buy.name << endl;
-			file_ << buy.price << endl;
-			file_ << buy.info << endl;;
-			file_ << "-------------" << endl;
-			file_.close();
-		}
-		cout << "Успешно сохраннено" << endl;
-
-
-	}
-
-	void add_to_file(car buy)
-	{
-		cout << "Введите имя файла(без расширения)" << endl << endl;;
-
-		cin >> input_name;
-
-
-		 
-
-		cout << "Введите имя: " << endl;
-		cin >> buy.name;
-		cout << "Введите цену: " << endl;
-		cin >> buy.price;
-		cout << "Введите информацию :" << endl;
-		cin >> buy.info;
-
-		cout << "------------" << endl;
-
-		cout << "Данные :/n" << endl;
-		cout << "Имя: " << buy.name << endl;
-		cout << "Цена: " << buy.price << endl;
-		cout << "Информация: " << buy.info << endl;
-
-		cout << "------------" << endl;
-
-		cout << "1.Изменить 2.Сохранить" << endl;
-		cin >> a;
-		if (a == 1)
-		{
-			add_to_file(buy);
-		}
-		else
-		{
-			file_.open(input_name + ".txt", ofstream::app);
-			file_ << buy.name << endl;
-			file_ << buy.price << endl;
-			file_ << buy.info << endl;
-			file_.close();
-		}
-		cout << "Успешно сохраннено" << endl;
-	}
-
-private :
-	int a;
-	string input_name;
-
-	ifstream file;
-	ofstream file_;
-};
 
 int main() 
 {
 	setlocale(LC_ALL, "rus");
 	car buy;
-	func func;
+	Action Action;
 	//value for menu 
 	int a;
 	//menu
@@ -156,16 +32,16 @@ int main()
 		cin >> a;
 		if (a == 1)
 		{
-			func.add(buy);
+			Action.add(buy);
 		}
 		else
 		{
-			func.add_to_file(buy);
+			Action.add_to_file(buy);
 		}
 	}
 	else
 	{	
-		func.find();
+		Action.findFile();
 	}
 
 
