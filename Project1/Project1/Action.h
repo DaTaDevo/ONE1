@@ -7,6 +7,8 @@ class Action
 public:
 	void findFile();
 
+	void menu(car buy);
+
 	void add(car buy);
 
 	void add_to_file(car buy);
@@ -17,4 +19,9 @@ private:
 
 	ifstream file;
 	ofstream file_;
+
+	vector <car> SaveDataCar;
+
+	int a;
+	 
 };

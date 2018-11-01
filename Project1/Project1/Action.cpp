@@ -1,6 +1,6 @@
 #include "Action.h"
 
-void Action:: findFile()
+void Action :: findFile()
 {
 	cout << "Имя машины" << endl;
 	cin >> input_name;
@@ -36,6 +36,7 @@ void Action :: add(car buy)
 {
 	cout << "-- Введите данные о машине --" << endl;
 
+	
 
 	cout << "Введите имя: " << endl;
 	cin >> buy.name;
@@ -61,6 +62,7 @@ void Action :: add(car buy)
 	}
 	else
 	{
+		SaveDataCar.push_back(buy);
 		file_.open(buy.name + ".txt");
 		file_ << "-------------" << endl;
 		file_ << buy.name << endl;
@@ -103,7 +105,8 @@ void Action :: add_to_file(car buy)
 	cin >> a;
 	if (a == 1)
 	{
-		add_to_file(buy);
+		add_to_file(buy
+);
 	}
 	else
 	{
@@ -114,5 +117,38 @@ void Action :: add_to_file(car buy)
 		file_.close();
 	}
 	cout << "Успешно сохраннено" << endl;
+}
+
+void Action :: menu(car buy) 
+{
+
+	cout << "1.Добавить машину 2.Найти машину" << endl;
+	cin >> a;
+
+	if (a == 1)
+	{
+		cout << "1.Создать новую 2.Добавить в файл" << endl;
+		cin >> a;
+		if (a == 1)
+		{
+			add(buy);
+
+			menu(buy);
+		}
+		else
+		{
+			add_to_file(buy);
+
+			menu(buy);
+
+		}
+	}
+	else
+	{
+		findFile();
+
+		menu(buy);
+
+	}
 }
 
