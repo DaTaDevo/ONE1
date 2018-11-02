@@ -62,7 +62,7 @@ void Action :: add(car buy)
 	}
 	else
 	{
-		SaveDataCar.push_back(buy);
+		
 		file_.open(buy.name + ".txt");
 		file_ << "-------------" << endl;
 		file_ << buy.name << endl;
@@ -132,22 +132,22 @@ void Action :: menu(car buy)
 		if (a == 1)
 		{
 			add(buy);
-
+				SaveDataCar.push_back(buy);
 			menu(buy);
 		}
 		else
 		{
 			add_to_file(buy);
-
+				SaveDataCar.push_back(buy);
 			menu(buy);
 
 		}
 	}
 	else
 	{
-		findFile();
-
-		menu(buy);
+			findFile();
+				SaveDataCar.push_back(buy);
+			menu(buy);
 
 	}
 }

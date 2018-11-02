@@ -1,17 +1,4 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <vector>
 #include "Action.h"
-
-using namespace std;
-
-struct car 
-{
-	string name;
-	int price;
-	string info;
-};
 
 
 
