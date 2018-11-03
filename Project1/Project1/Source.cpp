@@ -4,11 +4,11 @@
 
 int main() 
 {
-	setlocale(LC_ALL, "rus");
+	setlocale(LC_ALL, "ru");
 	car buy;
 	Action Action;
 
-	Action.menu(buy);
+	Action.menu();
 
 
 

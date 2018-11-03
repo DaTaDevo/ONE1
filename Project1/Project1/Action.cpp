@@ -14,7 +14,7 @@ void Action :: findFile()
 	{
 		cout << "Успешно!" << endl;
 
-		cout << "1.Открыть 2.Закрыть" << endl;
+		cout << "1.Открыть   2.Закрыть" << endl;
 		cin >> a;
 
 		if (a == 1)
@@ -32,42 +32,28 @@ void Action :: findFile()
 
 }
 
-void Action :: add(car buy)
+void Action :: add()
 {
-	cout << "-- Введите данные о машине --" << endl;
+	cout << "Введите имя файла нового файла :	";
 
-	
+	cin >> input_name;
 
-	cout << "Введите имя: " << endl;
-	cin >> buy.name;
-	cout << "Введите цену: " << endl;
-	cin >> buy.price;
-	cout << "Введите информацию :" << endl;
-	cin >> buy.info;
-
-	cout << "------------" << endl;
-
-	cout << "Данные :/n" << endl;
-	cout << "Имя: " << buy.name << endl;
-	cout << "Цена: " << buy.price << endl;
-	cout << "Информация: " << buy.info << endl;
-
-	cout << "------------" << endl;
+	AddDataCar();
 
 	cout << "1.Изменить 2.Сохранить" << endl;
 	cin >> a;
 	if (a == 1)
 	{
-		add(buy);
+		AddDataCar();
 	}
 	else
 	{
 		
-		file_.open(buy.name + ".txt");
+		file_.open(input_name + ".txt");
 		file_ << "-------------" << endl;
-		file_ << buy.name << endl;
-		file_ << buy.price << endl;
-		file_ << buy.info << endl;;
+		file_ << "Name :  " << name << endl;
+		file_ << "Price:  " << price << endl;
+		file_ << "Number :  " << number << endl;
 		file_ << "-------------" << endl;
 		file_.close();
 	}
@@ -76,70 +62,75 @@ void Action :: add(car buy)
 
 }
 
-void Action :: add_to_file(car buy)
+void Action :: add_to_file()
 {
-	cout << "Введите имя файла(без расширения)" << endl << endl;;
+	cout << "Введите имя файла существующего файла(без расширения)  :  ";
 
 	cin >> input_name;
 
-
-
-
-	cout << "Введите имя: " << endl;
-	cin >> buy.name;
-	cout << "Введите цену: " << endl;
-	cin >> buy.price;
-	cout << "Введите информацию :" << endl;
-	cin >> buy.info;
-
-	cout << "------------" << endl;
-
-	cout << "Данные :/n" << endl;
-	cout << "Имя: " << buy.name << endl;
-	cout << "Цена: " << buy.price << endl;
-	cout << "Информация: " << buy.info << endl;
-
-	cout << "------------" << endl;
+	AddDataCar();
 
 	cout << "1.Изменить 2.Сохранить" << endl;
 	cin >> a;
 	if (a == 1)
 	{
-		add_to_file(buy
-);
+		AddDataCar();
+		
 	}
 	else
 	{
 		file_.open(input_name + ".txt", ofstream::app);
-		file_ << buy.name << endl;
-		file_ << buy.price << endl;
-		file_ << buy.info << endl;
+		file_ << name << endl;
+		file_ << price << endl;
+		file_ << number << endl;
 		file_.close();
 	}
 	cout << "Успешно сохраннено" << endl;
+	submenu();
 }
 
-void Action :: menu(car buy) 
+void Action :: AddDataCar()
+{
+	cout << "\n -- Введите данные о машине --" << endl;
+
+	cout << "Введите имя		:	 ";
+	cin >> name;
+	cout << "Введите цену		:	 ";
+	cin >> price;
+	cout << "Введите номер	:	 ";
+	cin >> number;
+
+	cout << "------------" << endl;
+
+	cout << "Данные	   : " << endl;
+	cout << "Имя	   : " << name << endl;
+	cout << "Цена	   : " << price << endl;
+	cout << "Номер     : " << number << endl;
+
+	cout << "------------" << endl;
+}
+
+void Action :: menu() 
 {
 
-	cout << "1.Добавить машину 2.Найти машину" << endl;
+	cout << "\n\n1.Добавить машину \n2.Найти машину" << endl;
 	cin >> a;
 
 	if (a == 1)
 	{
-		cout << "1.Создать новую 2.Добавить в файл" << endl;
+		cout << "\n1.Создать новый файл для машины	 2.Добавить в существующий файл \n" << endl;
 		cin >> a;
 		if (a == 1)
 		{
-			add(buy);
+			add();
 				SaveDataCar.push_back(buy);
-			menu(buy);
+			menu();
 		}
 		else
 		{
-			add_to_file(buy);
+			add_to_file();
 				SaveDataCar.push_back(buy);
-			menu(buy);
+			menu();
 
 		}
 	}
@@ -147,8 +138,42 @@ void Action :: menu(car buy)
 	{
 			findFile();
 				SaveDataCar.push_back(buy);
-			menu(buy);
+			menu();
 
 	}
 }
 
+void Action :: submenu() 
+{
+	cout << "\n\n1.Добавить еще машину 2.Создать новый файл 3.Выйти в главное меню" << endl;
+	cin >> a;
+
+	if (a == 1)
+	{
+		AddDataCar();
+		MoveDataToFile();
+		submenu();
+		
+	}
+	else if (a == 2)
+	{
+		add();
+	}
+	else if (a == 3)
+	{
+		menu();
+	}
+
+}
+
+void Action::MoveDataToFile() 
+{
+	
+	file_.open(namereturn + ".txt", ofstream::app);
+	file_ << "----------------" << endl;
+ 	file_ << "Name :" << name << endl;
+	file_ << "Price:" << price << endl;
+	file_ << "Number :" << number << endl;
+	file_ << "----------------" << endl;
+	file_.close();
+}
