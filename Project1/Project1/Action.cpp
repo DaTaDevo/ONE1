@@ -97,7 +97,7 @@ void Action :: AddDataCar()
 	cin >> name;
 	cout << "Введите цену		:	 ";
 	cin >> price;
-	cout << "Введите номер	:	 ";
+	cout << "Введите номер		:	 ";
 	cin >> number;
 
 	cout << "------------" << endl;
@@ -105,7 +105,7 @@ void Action :: AddDataCar()
 	cout << "Данные	   : " << endl;
 	cout << "Имя	   : " << name << endl;
 	cout << "Цена	   : " << price << endl;
-	cout << "Номер     : " << number << endl;
+	cout << "Номер	   : " << number << endl;
 
 	cout << "------------" << endl;
 }
