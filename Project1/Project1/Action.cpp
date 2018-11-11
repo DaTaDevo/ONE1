@@ -1,14 +1,15 @@
 #include "Action.h"
+#define NAME 
 
 void Action :: findFile()
 {
-	cout << "Имя машины" << endl;
+	cout << "Имя файла:" << endl;
 	cin >> input_name;
 
 	file.open(input_name + ".txt");
 	if (!file.is_open())
 	{
-		cout << "Машина не найдена!" << endl;
+		cout << "Файл не найден!" << endl;
 	}
 	else
 	{
@@ -19,13 +20,11 @@ void Action :: findFile()
 
 		if (a == 1)
 		{
-			string str;
-			while (!file.eof())
-			{
-				str = "";
-				getline(file, str);
-				cout << str << endl;
-			}
+			file >> buy.name;
+			file >> buy.number;
+			file >> buy.price;
+
+			cout << buy.name << endl << buy.number << endl << buy.price << endl;
 		}
 
 	}
@@ -48,12 +47,12 @@ void Action :: add()
 	}
 	else
 	{
-		
+		SaveDataCar.push_back(buy);
 		file_.open(input_name + ".txt");
 		file_ << "-------------" << endl;
-		file_ << "Name :  " << name << endl;
-		file_ << "Price:  " << price << endl;
-		file_ << "Number :  " << number << endl;
+		file_ << "Name :  " <<buy.name << endl;
+		file_ << "Price:  " << buy.price << endl;
+		file_ << "Number :  " << buy.number << endl;
 		file_ << "-------------" << endl;
 		file_.close();
 	}
@@ -69,7 +68,7 @@ void Action :: add_to_file()
 	cin >> input_name;
 
 	AddDataCar();
-
+	
 	cout << "1.Изменить 2.Сохранить" << endl;
 	cin >> a;
 	if (a == 1)
@@ -78,11 +77,12 @@ void Action :: add_to_file()
 		
 	}
 	else
-	{
+	{ 
+		SaveDataCar.push_back(buy);
 		file_.open(input_name + ".txt", ofstream::app);
-		file_ << name << endl;
-		file_ << price << endl;
-		file_ << number << endl;
+		file_ << "Name  :" << buy.name << endl;
+		file_ << "Price :" << buy.price << endl;
+		file_ << "Number:" << buy.number << endl;
 		file_.close();
 	}
 	cout << "Успешно сохраннено" << endl;
@@ -94,26 +94,31 @@ void Action :: AddDataCar()
 	cout << "\n -- Введите данные о машине --" << endl;
 
 	cout << "Введите имя		:	 ";
-	cin >> name;
+	cin >> buy.name;
 	cout << "Введите цену		:	 ";
-	cin >> price;
+	cin >> buy.price;
 	cout << "Введите номер		:	 ";
-	cin >> number;
+	cin >> buy.number;
 
 	cout << "------------" << endl;
 
 	cout << "Данные	   : " << endl;
-	cout << "Имя	   : " << name << endl;
-	cout << "Цена	   : " << price << endl;
-	cout << "Номер	   : " << number << endl;
+	cout << "Имя	   : " << buy.name << endl;
+	cout << "Цена	   : " << buy.price << endl;
+	cout << "Номер	   : " << buy.number << endl;
 
 	cout << "------------" << endl;
 }
 
 void Action :: menu() 
 {
-
+#ifdef NAME
+		cout << "\n\n1.Добавить машину \n2.Найти машину\n3.Vector" << endl;
+#else
 	cout << "\n\n1.Добавить машину \n2.Найти машину" << endl;
+#endif
+	
+
 	cin >> a;
 
 	if (a == 1)
@@ -123,23 +128,25 @@ void Action :: menu()
 		if (a == 1)
 		{
 			add();
-				SaveDataCar.push_back(buy);
 			menu();
 		}
 		else
 		{
 			add_to_file();
-				SaveDataCar.push_back(buy);
 			menu();
 
 		}
+		
 	}
-	else
+	else if (a == 2)
 	{
 			findFile();
-				SaveDataCar.push_back(buy);
 			menu();
 
+	}
+	else if (a == 3)
+	{
+		cout << SaveDataCar.size() << endl;
 	}
 }
 
@@ -171,9 +178,9 @@ void Action::MoveDataToFile()
 	
 	file_.open(namereturn + ".txt", ofstream::app);
 	file_ << "----------------" << endl;
- 	file_ << "Name :" << name << endl;
-	file_ << "Price:" << price << endl;
-	file_ << "Number :" << number << endl;
+ 	file_ << "Name :" << buy.name << endl;
+	file_ << "Price:" << buy.price << endl;
+	file_ << "Number :" << buy.number << endl;
 	file_ << "----------------" << endl;
 	file_.close();
 }

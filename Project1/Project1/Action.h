@@ -50,10 +50,6 @@ private:
 
 	car buy;
 
-	//link to struct value
-	string &name = buy.name;
-	int &price   = buy.price;
-	int number   = buy.number;
 
 	vector <car> SaveDataCar;
 	 
