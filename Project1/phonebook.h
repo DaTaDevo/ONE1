@@ -4,6 +4,14 @@
 #include <iostream>
 # include <fstream>
 
+
+ class  Contact
+ {
+ public :
+     std::string name;
+     std::string number;
+ };
+
 class PhoneBook
 {
 public:
@@ -15,8 +23,6 @@ public:
   private :
     std::ofstream fileSave;
     std::ifstream fileOut;
-    std::string name;
-    int number;
     int a;
 };
 
