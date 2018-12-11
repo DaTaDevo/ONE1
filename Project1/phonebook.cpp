@@ -55,6 +55,7 @@ void PhoneBook::OutputPhoneBook()
         std::cout << strOutput;
         strOutput = " ";
     }
+    fileOut.close();
 }
 
 void PhoneBook::SaveInputData()
@@ -71,4 +72,5 @@ void PhoneBook::SaveInputData()
     {
        std:: cout << "Error: File open feiled" << std::endl;
     }
+    fileSave.close();
 }
