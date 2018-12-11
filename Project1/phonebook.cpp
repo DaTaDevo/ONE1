@@ -23,15 +23,21 @@ void PhoneBook::menu()
 
 void PhoneBook::InputData()
 {
-    std:: cout << "Name - "; std::cin >> name;
-    std:: cout << "Number - "; std::cin >> number;std::cout << std::endl;
+    std:: cout << "Name - "; 
+    std::cin >> name;
+    std:: cout << "Number - "; 
+    std::cin >> number;
+    std::cout << std::endl;
 
 
     std:: cout <<  "Total:"   << std::endl;
-    std:: cout <<  "Name - "   << name << std::endl
-                    << "Number - " << number << std::endl << std::endl;
+    std:: cout <<  "Name - "   
+        << name << std::endl
+        << "Number - " << number << std::endl 
+        << std::endl;
 
-    std::cout << "Save ?" << std::endl << "1. Yes   2.No" << std::endl ;
+    std::cout << "Save ?" << std::endl 
+        << "1. Yes   2.No" << std::endl ;
 
     std::cin >> a;
 
