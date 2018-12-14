@@ -3,27 +3,21 @@
 #include <string>
 #include <iostream>
 # include <fstream>
+/*  to fix :
+     class Contact : add (name:STRING);
+                                                           add (number:STRING);
 
 
+*/
  class  Contact
  {
  public :
      std::string name;
      std::string number;
  };
-
-class PhoneBook
-{
-public:
-    PhoneBook();
-    void menu();
-    void InputData();
-    void OutputPhoneBook();
-    void SaveInputData();
-  private :
-    std::ofstream fileSave;
-    std::ifstream fileOut;
-    int a;
-};
+void SaveInputData(std::string name,std::string number);
+void menu(std::string name,std::string number);
+void InputData(std::string name,std::string number);
+void OutputPhoneBook();
 
 #endif // PHONEBOOK_H

@@ -4,10 +4,10 @@ using namespace std;
 
 int main()
 {
-    PhoneBook pb;
+    Contact user;
     while (true)
     {
-            pb.menu();
+            menu(user.name,user.number);
     }
     return 0;
 }
