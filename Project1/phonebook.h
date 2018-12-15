@@ -15,9 +15,9 @@
      std::string name;
      std::string number;
  };
-void SaveInputData(std::string name,std::string number);
-void menu(std::string name,std::string number);
-void InputData(std::string name,std::string number);
+void SaveInputData(Contact user);
+void menu(Contact user);
+void InputData(Contact user);
 void OutputPhoneBook();
 
 #endif // PHONEBOOK_H

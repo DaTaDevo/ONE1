@@ -7,7 +7,7 @@ int main()
     Contact user;
     while (true)
     {
-            menu(user.name,user.number);
+            menu(user);
     }
     return 0;
 }

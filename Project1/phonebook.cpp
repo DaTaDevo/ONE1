@@ -7,16 +7,19 @@
 */
 
 
-void SaveInputData(std::string name, std::string number)
+void SaveInputData(Contact user)
 {
+
     std::ofstream fileSave;
     fileSave.open("PhoneBook.txt", std::ifstream::app);
 
     if (fileSave.is_open())
     {
         std:: cout << "Saving...." << std::endl;
-        fileSave << "Name:" << name << std::endl;
-        fileSave << "Number:" << number << std::endl;
+        fileSave << "----------------------------" << std::endl;
+        fileSave << "Name:" << user.name << std::endl;
+        fileSave << "Number:" << user.number << std::endl;
+        fileSave << "----------------------------" << std::endl;
     }
     else
     {
@@ -25,15 +28,15 @@ void SaveInputData(std::string name, std::string number)
     fileSave.close();
 }
 
-void InputData(std::string name, std::string number)
+void InputData(Contact user)
 {
-    std:: cout << "Name - "; std::cin >> name;
-    std:: cout << "Number - "; std::cin >> number;std::cout << std::endl;
+    std:: cout << "Name - "; std::cin >> user.name;
+    std:: cout << "Number - "; std::cin >> user.number;std::cout << std::endl;
 
 
     std:: cout <<  "Total:"   << std::endl;
-    std:: cout << "Name - "   << name << std::endl
-                    << "Number - " << number << std::endl << std::endl;
+    std:: cout << "Name - "   << user.name << std::endl
+                    << "Number - " << user.number << std::endl << std::endl;
 
     std::cout << "Save ?" << std::endl << "1. Yes   2.No" << std::endl ;
 
@@ -42,11 +45,11 @@ void InputData(std::string name, std::string number)
 
     if (a == 1)
     {
-        SaveInputData(name,number);
+        SaveInputData(user);
     }
     else
     {
-        InputData(name, number);
+        InputData(user);
     }
 }
 
@@ -64,7 +67,7 @@ void OutputPhoneBook()
     fileOut.close();
 }
 
-void menu(std::string name, std::string number)
+void menu(Contact user)
 {
     std::cout << "\n\n1. Add People " << std::endl << "2. Watch Phone Book" << std::endl;
 
@@ -73,11 +76,10 @@ void menu(std::string name, std::string number)
 
     if (a == 1)
     {
-        InputData(name,number);
+        InputData(user);
     }
     else
     {
         OutputPhoneBook();
     }
-
 }
