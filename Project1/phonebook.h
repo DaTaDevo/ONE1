@@ -3,12 +3,7 @@
 #include <string>
 #include <iostream>
 # include <fstream>
-/*  to fix :
-     class Contact : add (name:STRING);
-                                                           add (number:STRING);
 
-
-*/
  class  Contact
  {
  public :

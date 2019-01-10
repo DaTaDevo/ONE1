@@ -1,10 +1,4 @@
 #include "phonebook.h"
-/*
-    function "SaveInputData" : create File for Write;
-                                                                          writing data of contact in File;
-    function "ReadFile" : create File for Read;
-                                                                reading File;
-*/
 
 
 void SaveInputData(Contact user)
