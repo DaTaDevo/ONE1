@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <iterator>
 
  class  Contact
  {
@@ -18,7 +19,7 @@
      void createNewPeople();
      void readFile();
      void openFile();
-     void  saveData(std::string name);
+     void saveData(std::string name);
  public :
      void menu();
  };

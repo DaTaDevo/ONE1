@@ -59,6 +59,11 @@ void Contact::readFile()
     std::cin >> name;
     std::cout<< std::endl;
     file.open(name+".txt");
+    if(!file.is_open())
+    {
+        std::cout<<"error:file not found!"<<std::endl;
+        menu();
+    }
     std::string str;
     while(!file.eof())
     {
@@ -67,9 +72,34 @@ void Contact::readFile()
         str = " ";
     }
     // сделать вывод по странично
-    for (unsigned int i = 0;i<transfer.size();i++)
+    if(transfer.size() > 10)
     {
-        std::cout << transfer.at(i) << std::endl;
+        unsigned int counter = 10;
+        while(counter <= transfer.size())
+        {
+            for(int i = 0;i<10;i++)
+            {
+                std::cout<<transfer.at(i)<<std::endl;
+            }
+            counter+=10;
+            std::cout<< "1.Next Page 2.Close" <<std::endl;
+            int a;
+            std::cin >> a;
+            if(a != 1)
+                menu();
+
+        }
+        for(counter;counter<transfer.size();++counter)
+        {
+            std::cout<<transfer.at(counter)<<std::endl;
+        }
+    }
+    else
+    {
+        for (unsigned int i = 0;i<transfer.size();i++)
+        {
+            std::cout << transfer.at(i) << std::endl;
+        }
     }
 }
 
@@ -115,9 +145,9 @@ void Contact::openFile()
 void Contact::menu ()
 {
     std::cout << "\n\n"
-                 "----------------------------------"
+                 "----------------------------------\n"
                        "1.Add New Contact\n"
-                        "2.Watch Contact-Book File"
+                        "2.Watch Contact-Book File\n"
                  "----------------------------------" << std::endl;
     int a;
     std::cin >> a;
