@@ -7,16 +7,21 @@
 
  class  Contact
  {
- public :
      std::string name;
      std::string number;
+
      std::string nameOfFile;
      std::vector <std::string> transfer;
+     std::string newFileName;
+     std::string oldFileName;
+
+     void createNewPeople();
+     void readFile();
+     void openFile();
+     void  saveData(std::string name);
+ public :
+     void menu();
  };
-std::string beforeInput(Contact user);
-void saveInputData(Contact user);
-void menu(Contact user);
-void inputData(Contact user);
-void outputPhoneBook();
+
 
 #endif // PHONEBOOK_H

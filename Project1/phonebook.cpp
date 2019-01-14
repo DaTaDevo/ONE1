@@ -1,124 +1,132 @@
 #include "phonebook.h"
-
-std::string beforeInput(Contact user)
+/*
+func createNewPeople()
 {
-    int a=0;
+    - input data about people
+}
+func saveData(NameofFile)
+{
+    - open file
+    - save data to file
+}
+func readFile()
+{
+    - open file for read
+    -  reading a file
+    - all data send to vector
+    - hide data in console
+}
+func openFile()
+{
+    - new or old file a open
+       \            \
+       \            ----------->openFile \
+       \                                           \
+create new file   -------------------
+                                        \
+                                        \
+                                call  func is createNewPeople
+                                        \
+                                        \
+                                call func is saveData
+}
+*/
+void Contact::createNewPeople()
+{
+    std::cout << "Name: " ;
+    std::cin >> name;
+    std::cout << std::endl;
+    std::cout << "Number: " ;
+    std::cin >> number;
+    std::cout << std::endl;
+}
 
-    std::cout << "1.Open file 2.New file "<<std::endl;
+void Contact::saveData(std::string name)
+{
+    std::ofstream file;
+    file.open(name+".txt",std::ios::app);
+    file << "Name - " << name <<"\n";
+    file << "Number - " << number << "\n";
+    file << "\n";
+    file.close();
+}
+
+void Contact::readFile()
+{
+    std::ifstream file;
+    std::cout << "Type a name of file: ";
+    std:: string name;
+    std::cin >> name;
+    std::cout<< std::endl;
+    file.open(name+".txt");
+    std::string str;
+    while(!file.eof())
+    {
+        std::getline(file,str);
+        transfer.push_back(str);
+        str = " ";
+    }
+    // сделать вывод по странично
+    for (unsigned int i = 0;i<transfer.size();i++)
+    {
+        std::cout << transfer.at(i) << std::endl;
+    }
+}
+
+void Contact::openFile()
+{
+    std::cout << "1.Create a new File  2.Open File" << std::endl;
+    int a;
     std::cin >> a;
-    if(a == 2)
-    {
-        std::cout << "Type a name of file, which you wanna create" <<std::endl;
-        std::cin >> user.nameOfFile;
-
-        std::fstream newFile;
-        newFile.open(user.nameOfFile + ".txt");
-        newFile.close();
-    }
-    else
-    {
-        std::cout << "Type a name of file, which you wanna open: ";
-        std::cin >> user.nameOfFile;
-        std::cout<<std::endl;
-
-        std::fstream tempFile;
-        tempFile.open(user.nameOfFile + ".txt",std::ios::out);
-
-        if(tempFile.is_open() == false)
-        {return user.nameOfFile;
-            std::cout<<"Error:File not found!"<<std::endl;
-            beforeInput(user);
-        }
-        tempFile.close();
-    }
-  return user.nameOfFile;
-}
-
-void saveInputData(Contact user)
-{
-
-    std::ofstream fileSave;
-    fileSave.open(user.nameOfFile, std::ifstream::app);
-
-    if (fileSave.is_open())
-    {
-        std:: cout << "Saving...." << std::endl;
-        fileSave << "----------------------------" << std::endl;
-        fileSave << "Name:" << user.name << std::endl;
-        fileSave << "Number:" << user.number << std::endl;
-        fileSave << "----------------------------" << std::endl;
-    }
-    else
-    {
-       std:: cout << "Error: File open feiled" << std::endl;
-    }
-}
-
-void inputData(Contact user)
-{
- //создание или открытия опеределенного файла-контактов пользователем(DONE!)
- int a = 0;
-
- beforeInput(user);
- std::cout << "Name - ";
- std::cin  >> user.name;
-
- std::cout << "Number - ";
- std::cin  >> user.number;
- std::cout << std::endl;
-
-
- std::cout <<  "Total:"   << std::endl;
- std::cout << "Name - "   << user.name << std::endl
-           << "Number - " << user.number << std::endl << std::endl;
-
- std::cout << "Save ?" << std::endl << "1. Yes   2.No" << std::endl ;
-
- std::cin  >> a;
-
- if (a == 1)
- {
-     saveInputData(user);
- }
- else
- {
-     inputData(user);
- }
-}
-
-void outputPhoneBook(Contact user)
-{
-    //вывод на экран по 10 контактов(для вектора 10 контактов = 40 элементов)(WAIT...)
-    std::cout<<"Type a name of file: ";
-    std::cin >>user.nameOfFile;
-    std::cout<<std::endl;
-
-    std::string strOutput;
-    std::ifstream fileOut;
-
-    fileOut.open(user.nameOfFile + ".txt");
-    while (!fileOut.eof())
-    {
-        fileOut >> strOutput;
-        user.transfer.push_back(strOutput);
-        strOutput = " ";
-    }
-    fileOut.close();
-}
-
-void menu(Contact user)
-{
-    std::cout << "\n\n1. Add People " << std::endl << "2. Watch Phone Book" << std::endl;
-
-    int a = 0;
-    std::cin >> a;
-
     if (a == 1)
     {
-        inputData(user);
+        std::fstream file;
+        std::cout << "Type a name of file: " ;
+        std::cin >> newFileName;
+        std::cout << std::endl;
+        file.open(newFileName+".txt");
+        file.close();
+        createNewPeople();
+        saveData(newFileName);
     }
     else
     {
-        outputPhoneBook();
+        std::fstream file;
+        std::cout << "Type a name of file: " ;
+        std::cin >> oldFileName;
+        std::cout << std::endl;
+        file.open(oldFileName+".txt");
+
+        if(!file.is_open())
+        {
+            file.close();
+            std::cout<<"error:file not found!"<<std::endl;
+        }
+        else
+        {
+              file.close();
+              createNewPeople();
+              saveData(oldFileName);
+        }
+
+    }
+}
+
+void Contact::menu ()
+{
+    std::cout << "\n\n"
+                 "----------------------------------"
+                       "1.Add New Contact\n"
+                        "2.Watch Contact-Book File"
+                 "----------------------------------" << std::endl;
+    int a;
+    std::cin >> a;
+    if(a == 1)
+    {
+        openFile();
+    }
+    else
+    {
+        readFile();
     }
 }
