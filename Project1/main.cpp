@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
   Contact user;
-  while (true)
+  while (user.menu())
   {
     user.menu();
   }

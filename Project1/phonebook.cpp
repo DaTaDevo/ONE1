@@ -31,16 +31,95 @@ create new file   -------------------
                                 call func is saveData
 }
 */
+Contact::~Contact()
+{
+    std::cout <<"Closing...";
+}
+
+void Contact::outputPage(std::vector <std::string> &vec)
+{
+    // сделать вывод по странично
+    if(vec.size() > 10)
+    {
+        unsigned int counter = 10;
+        while(counter <= vec.size())
+        {
+            for(int i = 0;i<10;i++)
+            {
+                std::cout<<vec.at(i)<<std::endl;
+            }
+            counter+=10;
+            std::cout<< "1.Next Page 2.Close" <<std::endl;
+            int a;
+            std::cin >> a;
+            if(a != 1)
+                return;
+        }
+        for(counter;counter<vec.size();++counter)
+        {
+            std::cout<<vec.at(counter)<<std::endl;
+        }
+    }
+    else
+    {
+        for (unsigned int i = 0;i<vec.size();i++)
+        {
+            std::cout << vec.at(i) << std::endl;
+        }
+    }
+}
+bool Contact::tryOpenFile(std::string nameFile)
+{
+    std::fstream file;
+    file.open(nameFile+".txt");
+    if(file.is_open() == false)
+    {
+        return false;
+    }
+    return true;
+}
+std::string Contact::chooseNameFile()
+{
+    std::cout << "Type a name of file: ";
+    std::cin >> nameOfFile;
+    std::cout<< std::endl;
+    return nameOfFile;
+}
+std::string Contact::chooseNameFile(int typeFile)
+{
+    std::cout << "Type a name of file: " ;
+    std::cin >> nameOfFile;
+    std::cout << std::endl;
+
+    if (typeFile == 1)
+    {
+        //create a new file
+        std::fstream file;
+        file.open(nameOfFile+".txt");
+        file.close();
+    }
+    else
+    {
+        //opening old file
+        if(tryOpenFile(nameOfFile)==false)
+        {
+            std::cout<<"Failed is open file"<<std::endl;
+            chooseNameFile(typeFile);
+        }
+
+    }
+
+    return nameOfFile;
+}
 void Contact::createNewPeople()
 {
     std::cout << "Name: " ;
-    std::cin >> name;
+    std::cin >> nameFile;
     std::cout << std::endl;
     std::cout << "Number: " ;
     std::cin >> number;
     std::cout << std::endl;
 }
-
 void Contact::saveData(std::string name)
 {
     std::ofstream file;
@@ -50,19 +129,15 @@ void Contact::saveData(std::string name)
     file << "\n";
     file.close();
 }
-
 void Contact::readFile()
 {
+    chooseNameFile();
     std::ifstream file;
-    std::cout << "Type a name of file: ";
-    std:: string name;
-    std::cin >> name;
-    std::cout<< std::endl;
-    file.open(name+".txt");
+    file.open(nameOfFile+".txt");
     if(!file.is_open())
     {
         std::cout<<"error:file not found!"<<std::endl;
-        menu();
+        return;
     }
     std::string str;
     while(!file.eof())
@@ -71,92 +146,31 @@ void Contact::readFile()
         transfer.push_back(str);
         str = " ";
     }
-    // сделать вывод по странично
-    if(transfer.size() > 10)
-    {
-        unsigned int counter = 10;
-        while(counter <= transfer.size())
-        {
-            for(int i = 0;i<10;i++)
-            {
-                std::cout<<transfer.at(i)<<std::endl;
-            }
-            counter+=10;
-            std::cout<< "1.Next Page 2.Close" <<std::endl;
-            int a;
-            std::cin >> a;
-            if(a != 1)
-                menu();
-
-        }
-        for(counter;counter<transfer.size();++counter)
-        {
-            std::cout<<transfer.at(counter)<<std::endl;
-        }
-    }
-    else
-    {
-        for (unsigned int i = 0;i<transfer.size();i++)
-        {
-            std::cout << transfer.at(i) << std::endl;
-        }
-    }
+    file.close();
+    outputPage(transfer);
 }
-
 void Contact::openFile()
 {
     std::cout << "1.Create a new File  2.Open File" << std::endl;
     int a;
     std::cin >> a;
-    if (a == 1)
-    {
-        std::fstream file;
-        std::cout << "Type a name of file: " ;
-        std::cin >> newFileName;
-        std::cout << std::endl;
-        file.open(newFileName+".txt");
-        file.close();
-        createNewPeople();
-        saveData(newFileName);
-    }
-    else
-    {
-        std::fstream file;
-        std::cout << "Type a name of file: " ;
-        std::cin >> oldFileName;
-        std::cout << std::endl;
-        file.open(oldFileName+".txt");
-
-        if(!file.is_open())
-        {
-            file.close();
-            std::cout<<"error:file not found!"<<std::endl;
-        }
-        else
-        {
-              file.close();
-              createNewPeople();
-              saveData(oldFileName);
-        }
-
-    }
+    chooseNameFile(a);
+    createNewPeople();
+    saveData(nameOfFile);
 }
-
-void Contact::menu ()
+bool Contact::menu ()
 {
     std::cout << "\n\n"
                  "----------------------------------\n"
                        "1.Add New Contact\n"
-                        "2.Watch Contact-Book File\n"
+                       "2.Read File\n"
+                       "3.Close\n"
                  "----------------------------------" << std::endl;
     int a;
     std::cin >> a;
-    if(a == 1)
-    {
-        openFile();
-    }
-    else
-    {
-        readFile();
+    switch (a) {
+    case 1: openFile();break;
+    case 2: readFile();break;
+    case 3: return false;
     }
 }

@@ -8,7 +8,8 @@
 
  class  Contact
  {
-     std::string name;
+
+     std::string nameFile;
      std::string number;
 
      std::string nameOfFile;
@@ -18,10 +19,15 @@
 
      void createNewPeople();
      void readFile();
+     void outputPage(std::vector <std::string> &vec);
      void openFile();
-     void saveData(std::string name);
+     bool tryOpenFile(std::string nameFile);
+     std::string    chooseNameFile();
+     std::string chooseNameFile(int typeFile);
+     void saveData(std::string nameFile);
  public :
-     void menu();
+     ~Contact();
+     bool menu();
  };
 
 
