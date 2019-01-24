@@ -36,6 +36,19 @@ Contact::~Contact()
     std::cout <<"Closing...";
 }
 
+void Contact::readList()
+{
+    std::ifstream file;
+    file.open(nameFileList);
+    std::string str;
+    while(!file.eof())
+    {
+       str = " ";
+       file >> str;
+       std::cout << str << std::endl;
+    }
+
+}
 void Contact::outputPage(std::vector <std::string> &vec)
 {
     // сделать вывод по странично
@@ -55,7 +68,7 @@ void Contact::outputPage(std::vector <std::string> &vec)
             if(a != 1)
                 return;
         }
-        for(counter;counter<vec.size();++counter)
+        for(;counter<vec.size();++counter)
         {
             std::cout<<vec.at(counter)<<std::endl;
         }
@@ -97,6 +110,11 @@ std::string Contact::chooseNameFile(int typeFile)
         std::fstream file;
         file.open(nameOfFile+".txt");
         file.close();
+        //save name of file to file-list
+        std::ofstream oFile;
+        oFile.open(nameFileList);
+        oFile << nameOfFile;
+        oFile.close();
     }
     else
     {
@@ -114,7 +132,7 @@ std::string Contact::chooseNameFile(int typeFile)
 void Contact::createNewPeople()
 {
     std::cout << "Name: " ;
-    std::cin >> nameFile;
+    std::cin >> name;
     std::cout << std::endl;
     std::cout << "Number: " ;
     std::cin >> number;
@@ -131,6 +149,7 @@ void Contact::saveData(std::string name)
 }
 void Contact::readFile()
 {
+    readList();
     chooseNameFile();
     std::ifstream file;
     file.open(nameOfFile+".txt");
@@ -143,11 +162,11 @@ void Contact::readFile()
     while(!file.eof())
     {
         std::getline(file,str);
-        transfer.push_back(str);
+        listInfo.push_back(str);
         str = " ";
     }
     file.close();
-    outputPage(transfer);
+    outputPage(listInfo);
 }
 void Contact::openFile()
 {
@@ -168,9 +187,11 @@ bool Contact::menu ()
                  "----------------------------------" << std::endl;
     int a;
     std::cin >> a;
-    switch (a) {
-    case 1: openFile();break;
-    case 2: readFile();break;
-    case 3: return false;
+    switch (a)
+    {
+        case 1: openFile();break;
+        case 2: readFile();break;
+        case 3: return false;
     }
+    return true;
 }
