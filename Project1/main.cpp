@@ -5,10 +5,10 @@ using namespace std;
 
 int main()
 {
-  Contact user;
-  while (user.menu())
+  Menu var;
+  while (var.menu())
   {
-    user.menu();
+    var.menu();
   }
   return 0;
 }
