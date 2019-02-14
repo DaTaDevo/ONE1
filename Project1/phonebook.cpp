@@ -156,6 +156,7 @@ void ContactList::addContact(Contact& var,std::string nameFile)
 //    saveData(nameOfFile);
 //}
 bool Menu::menu ()
+
 {
     std::cout << "\n\n"
                  "----------------------------------\n"
@@ -168,25 +169,66 @@ bool Menu::menu ()
     switch (a)
     {
         case 1: newContact(listVar);break;
-        case 3: return false;
+        case 2: readFile();break;
+        case 3: findContact(contactVar);break;
+        case 4: return false;
     }
+    system("cls");
     return true;
 }
 
 
 //new function
+void Menu::findContact(Contact& var)
+{
+    std::cout << "1.For Name\n"
+                 "2.For Number\n";
+    int a;
+    std::cin >> a;
+    if (a==1)
+    {
+        std::cout << "Name: ";
+        std::cin >> var.name;
+    }
+}
+void Menu::saveContact(Contact& var, std::string& file)
+{
+    std::ofstream fileSave;
+    fileSave.open(file);
+    fileSave << var.name << "\n" << var.number << "\n";
+    fileSave.close();
+}
 void Menu::openFile(ContactList& var)
 {
-    std::cout <<"Set Name of File: ";
+
+    std::cout <<"Name of File: ";
     std::cin >>nameFile;
     std::ofstream file;
     nameFile = nameFile+".txt";
-    file.open(nameFile);
+    file.open(nameFile,std::ios::app);
     var.addContact(contactVar,nameFile);
+    saveContact(contactVar,nameFile);
     file.close();
 }
-
+void Menu::readFile()
+{
+    system("cls");
+    std::cout <<"Name of File: ";
+    std::cin >>nameFile;
+    std::ifstream file;
+    nameFile = nameFile+".txt";
+    file.open(nameFile,std::ios::in);
+    std::string str;
+    while(!file.eof())
+    {
+        str = " ";
+        file >> str;
+        std::cout << str << std::endl;
+    }
+    file.close();
+}
 void Menu::newContact(ContactList& var)
 {
+    system("cls");
     openFile(var);
 }

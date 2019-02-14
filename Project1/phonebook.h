@@ -1,5 +1,6 @@
 #ifndef PHONEBOOK_H
 #define PHONEBOOK_H
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -23,8 +24,8 @@
    void addContact(Contact& var, std::string nameFile);
    void deleteContact(Contact& var);
    void filterTurn();//create!
-   void searchName(std::string name);//create!
-   void searchNumber(std::string number);//create!
+   void findForName(std::string name);//create!
+   void findForNumber(std::string number);//create!
  };
 
  class Menu
@@ -45,9 +46,11 @@
 //     std::string chooseNameFile(int typeFile);//ввод файла которого нужно в будующем открыть
 //     void saveData(std::string nameFile,Contact& var);//сохранение данных о контакте
      void newContact(ContactList& var);
+     void findContact(Contact& var);
      void openFile(ContactList& var);
-     void saveData(std::string& name, std::string& number, std::string& file);
-     void saveContact(ContactList& var);
+     void readFile();
+     void saveContact(Contact& var, std::string& file);
+//     void saveContact(ContactList& var);
  public :
      ~Menu();
      bool menu();//меню
