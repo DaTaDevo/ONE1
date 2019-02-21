@@ -8,7 +8,7 @@ int main()
   Menu var;
   while (var.menu())
   {
-    var.menu();
+        var.menu();
   }
   return 0;
 }

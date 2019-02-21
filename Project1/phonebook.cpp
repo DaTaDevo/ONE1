@@ -1,234 +1,119 @@
 #include "phonebook.h"
-/*
- Note:
 
-*/
 Menu::~Menu()
 {
-    std::cout <<"Closing...";
+    std::cout << "Closing..." << std::endl;
 }
 
-//void Menu::readList()
-//{
-//    std::ifstream file;
-//    file.open(nameFileList);
-//    std::string str;
-//    while(!file.eof())
-//    {
-//       str = " ";
-//       file >> str;
-//       std::cout << str << std::endl;
-//    }
-
-//}
-//void Menu::outputPage(std::vector <std::string> &vec)
-//{
-//    // сделать вывод по странично
-//    if(vec.size() > 10)
-//    {
-//        unsigned int counter = 10;
-//        while(counter <= vec.size())
-//        {
-//            for(int i = 0;i<10;i++)
-//            {
-//                std::cout<<vec.at(i)<<std::endl;
-//            }
-//            counter+=10;
-//            std::cout<< "1.Next Page 2.Close" <<std::endl;
-//            int a;
-//            std::cin >> a;
-//            if(a != 1)
-//                return;
-//        }
-//        for(;counter<vec.size();++counter)
-//        {
-//            std::cout<<vec.at(counter)<<std::endl;
-//        }
-//    }
-//    else
-//    {
-//        for (unsigned int i = 0;i<vec.size();i++)
-//        {
-//            std::cout << vec.at(i) << std::endl;
-//        }
-//    }
-//}
-//bool Menu::tryOpenFile(std::string nameFile)
-//{
-//    std::fstream file;
-//    file.open(nameFile+".txt");
-//    if(file.is_open() == false)
-//    {
-//        return false;
-//    }
-//    return true;
-//}
-//std::string Menu::chooseNameFile()
-//{
-//    std::cout << "Type a name of file: ";
-//    std::cin >> nameOfFile;
-//    std::cout<< std::endl;
-//    return nameOfFile;
-//}
-//std::string Menu::chooseNameFile(int typeFile)
-//{
-//    std::cout << "Type a name of file: " ;
-//    std::cin >> nameOfFile;
-//    std::cout << std::endl;
-
-//    if (typeFile == 1)
-//    {
-//        //create a new file
-//        std::fstream file;
-//        file.open(nameOfFile+".txt");
-//        file.close();
-//        //save name of file to file-list
-//        std::ofstream oFile;
-//        oFile.open(nameFileList);
-//        oFile << nameOfFile;
-//        oFile.close();
-//    }
-//    else
-//    {
-//        //opening old file
-//        if(tryOpenFile(nameOfFile)==false)
-//        {
-//            std::cout<<"Failed is open file"<<std::endl;
-//            chooseNameFile(typeFile);
-//        }
-
-//    }
-
-//    return nameOfFile;
-//}
-void ContactList::addContact(Contact& var,std::string nameFile)
+void  ContactList::saveContact(Contact& var,std::string nameFile)
 {
-    std::cout << "Name: " ;
-    std::cin >> var.name;
-    std::cout << std::endl;
-    std::cout << "Number: " ;
-    std::cin >> var.number;
-    std::cout << std::endl;
-    //save to file
     std::ofstream file;
     file.open(nameFile);
-    file << var.name << "\n";
-    file << var.number << "\n";
+        file << var.name;
+        file << "\n";
+        file << var.number;
+        file << "\n";
     file.close();
 }
-//void Menu::saveData(std::string name,Contact& var)
-//{
-//    std::ofstream file;
-//    file.open(name+".txt",std::ios::app);
-//    file << "Name - " << var.name <<"\n";
-//    file << "Number - " << var.number << "\n";
-//    file << "\n";
-//    file.close();
-//}
-//void Menu::readFile()
-//{
-//    readList();
-//    chooseNameFile();
-//    std::ifstream file;
-//    file.open(nameOfFile+".txt");
-//    if(!file.is_open())
-//    {
-//        std::cout<<"error:file not found!"<<std::endl;
-//        return;
-//    }
-//    std::string str;
-//    while(!file.eof())
-//    {
-//        std::getline(file,str);
-//        listInfo.push_back(str);
-//        str = " ";
-//    }
-//    file.close();
-//    outputPage(listInfo);
-//}
-//void Menu::openFile(ContactList& varCL)
-//{
-//    std::cout << "1.Create a new File  2.Open File" << std::endl;
-//    int a;
-//    std::cin >> a;
-//    chooseNameFile(a);
-//    varCL.addContact(Contact& var);
-//    saveData(nameOfFile);
-//}
-bool Menu::menu ()
 
+void ContactList::addContact(Contact var)
 {
-    std::cout << "\n\n"
-                 "----------------------------------\n"
-                       "1.Add New Contact\n"
-                       "2.Read File\n"
-                       "3.Close\n"
-                 "----------------------------------" << std::endl;
-    int a;
-    std::cin >> a;
-    switch (a)
-    {
-        case 1: newContact(listVar);break;
-        case 2: readFile();break;
-        case 3: findContact(contactVar);break;
-        case 4: return false;
-    }
-    system("cls");
-    return true;
+    std::string nameFile;
+    std::cout << "Name Of File:";
+    std::cin >> nameFile;
+    nameFile +=".txt";
+    std::cout << "Name:";
+    std::cin >> var.name;
+    std::cout << "Number:";
+    std::cin >> var.number;
+    saveContact(var,nameFile);
 }
 
-
-//new function
-void Menu::findContact(Contact& var)
-{
-    std::cout << "1.For Name\n"
-                 "2.For Number\n";
-    int a;
-    std::cin >> a;
-    if (a==1)
-    {
-        std::cout << "Name: ";
-        std::cin >> var.name;
-    }
-}
-void Menu::saveContact(Contact& var, std::string& file)
-{
-    std::ofstream fileSave;
-    fileSave.open(file);
-    fileSave << var.name << "\n" << var.number << "\n";
-    fileSave.close();
-}
-void Menu::openFile(ContactList& var)
-{
-
-    std::cout <<"Name of File: ";
-    std::cin >>nameFile;
-    std::ofstream file;
-    nameFile = nameFile+".txt";
-    file.open(nameFile,std::ios::app);
-    var.addContact(contactVar,nameFile);
-    saveContact(contactVar,nameFile);
-    file.close();
-}
 void Menu::readFile()
 {
-    system("cls");
-    std::cout <<"Name of File: ";
-    std::cin >>nameFile;
+    std::string nameFile;
+    std::cout << "Name of File:";
+    std::cin >> nameFile;
+    nameFile += ".txt";
     std::ifstream file;
-    nameFile = nameFile+".txt";
-    file.open(nameFile,std::ios::in);
+    file.open(nameFile);
     std::string str;
     while(!file.eof())
     {
-        str = " ";
-        file >> str;
-        std::cout << str << std::endl;
+        str =" ";
+        getline(file,str);
+        std::cout << str<<std::endl;
+        listVar.readString.push_back(str);
     }
     file.close();
 }
-void Menu::newContact(ContactList& var)
+void ContactList::findByName(std::string name)
 {
-    system("cls");
-    openFile(var);
+        unsigned int i;
+        while(i<=readString.size())
+        {
+            if(name == readString.at(i))
+            {
+                std::cout << readString.at(i)<<std::endl;
+                std::cout << readString.at(i+1)<<std::endl;
+                std::cout << "\n\n";
+            }
+            i =+2;
+        }
+}
+
+void ContactList::findByNumber(std::string number)
+{
+        unsigned int i = 1;
+        while(i<=readString.size())
+        {
+            if(number == readString.at(i))
+            {
+                std::cout << readString.at(i)<<std::endl;
+                std::cout << readString.at(i-1)<<std::endl;
+                std::cout << "\n\n";
+            }
+            i =+2;
+        }
+}
+void Menu::findContact()
+{
+    int a;
+    std::cout << "1.Find by Name\n"
+                        "2.Find by Number"<< std::endl;
+    std::cin >> a;
+    if (a == 1)
+    {
+        system("cls");
+        std::string name;
+        std::cout << "Name:  \n";
+        std::cin >> name;
+        listVar.findByName(name);
+    }
+    else
+    {
+        system("cls");
+        std::string number;
+        std::cout << "Name:  \n";
+        std::cin >> number;
+        listVar.findByNumber(number);
+    }
+}
+
+bool Menu::menu()
+{
+    std::cout << "1.Add Contact\n"
+                        "2.Read File\n"
+                        "3.Find Contact\n"
+                        "4.Close";
+    int a;
+    std::cin >> a;
+    switch(a)
+    {
+    case 1 : listVar.addContact(contactVar);break;
+    case 2 : readFile();break;
+    case 3 : findContact();
+    case 4 : return false;
+    }
+    return true;
 }
