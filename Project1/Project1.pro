@@ -4,8 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp \
-    phonebook.cpp
+        main.cpp
 
 HEADERS += \
-    phonebook.h
+    controller.h \
+    model.h \
+    view.h
