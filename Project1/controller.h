@@ -50,6 +50,7 @@ public:
         if (cmd==5)     {saveStorage(); return;}
         }
     }
+private: 
     void saveContact()
     {
         int err = v.m_addContact(m);
@@ -77,15 +78,6 @@ public:
             v.print("This Contact Has Not Found!\n");
         }
 //        dstrg.close();
-    }
-    bool checkInput(char inputed, std::string array)
-    {
-        for (u_int  i = 0; i < array.size(); i++)
-        {
-            if(inputed == array[i])
-                return  false;
-        }
-        return true;
     }
     void deleteContact()
     {

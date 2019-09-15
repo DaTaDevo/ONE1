@@ -4,12 +4,12 @@
 class View
 {
 public:
+    int answr;
+    char c_answr;
     void print(std::string text)
     {
         std::cout <<text;
     }
-    int answr;
-    char c_answr;
     bool checkNumberInput(std::string number)
     {
         if (number.size() > 12)
