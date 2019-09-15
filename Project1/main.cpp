@@ -4,7 +4,7 @@ using namespace std;
 /*Небольшая новость: Для получение документации посмотрите файл README.txt или просто открыть его в программе*/
 int main()
 {
-    Controller  cntrl;
-    cntrl.start();
+    Controller ctrl;
+    ctrl.start();
     return 0;
 }

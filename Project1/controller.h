@@ -3,46 +3,51 @@
 #include <assert.h>
 #include <fstream>
 #include <vector>
+typedef unsigned int u_int;
 class Controller : public Model
 {
     View v;
     Model m;
-    enum menu
-    {
-        AddContact = 1,
-        FindContact,
-        ShowContact,
-        DeleteContact,
-        Exit
-    };
-    void read(/*std::string file_name = "DataStorage"*/)
+    std::vector <Model> storage;
+    void fillStorage()
     {
         system("cls");
         std::ifstream file;
         file.open("DataStorage.txt");
-        if (!file.is_open())
-            return v.print("File Not Found!\n");
-        while (file >> name >> num /*>> id_file*/)
+//        if (!file.is_open())
+//            return v.print("Storage is empty");
+        while (file >> name >> num)
         {
-            m.set(name,num/*,id_file*/);//устанавливаем данные для нашей переменной m
-            v.showContact(m);
+            m.set(name,num);//устанавливаем данные для нашей переменной m
+            storage.push_back(m);
         }
+        if(storage.size()==0)
+            return v.print("Storage is empty\n");
         file.close();
+    }
+    void saveStorage()
+    {
+        system("cls");
+        std::ofstream file;
+        file.open("DataStorage.txt");
+        for (u_int i = 0; i < storage.size(); i++)
+        {
+            file << storage.at(i).getName() <<"\t"<< storage.at(i).getNum() << "\n";
+        }
     }
 public:
     void start()
     {
-        while (true)
+        fillStorage();
+        while(true)
         {
-            v.m_start();
-            switch (v.answr)
-            {
-            case AddContact     : saveContact();break;
-            case FindContact    : find();break;
-            case ShowContact    : read()/*contactList()*/;break;
-            case DeleteContact  : deleteContact();break;
-            case Exit           : return;
-            }
+        v.m_start();
+        int cmd = v.answr;
+        if (cmd==1)     saveContact();
+        if (cmd==2)     find();
+        if (cmd==3)     show();
+        if (cmd==4)     deleteContact();
+        if (cmd==5)     {saveStorage(); return;}
         }
     }
     void saveContact()
@@ -50,52 +55,32 @@ public:
         int err = v.m_addContact(m);
         if (err == 1)
             return;
-        std::ofstream file;
-//        file.open(m.getId()+".txt",std::ios::app);
-//        file << m.getName() <<"\t" << m.getNum() << "\t" << m.getId() << "\n";
-//        file.close();
-        file.open("DataStorage.txt",std::ios::app);
-        file << m.getName() <<"\t" << m.getNum()/* << "\t" << m.getId()*/ << "\n";
-        file.close();
+        storage.push_back(m);
     }
     void find()
     {
         system("cls");
         std::string str = v.m_findContact();
-//        int count = 0;
-//        Model *storage = new Model [count];
-        std::ifstream dstrg;
-        dstrg.open("DataStorage.txt");
+//        std::ifstream dstrg;
+//        dstrg.open("DataStorage.txt");
         bool found = false;
-        while (dstrg >> Model::name >> Model::num /*>> Model::id_file*/)
+        for (u_int i = 0; i < storage.size();i++)
         {
-            m.set(Model::name,Model::num/*,Model::id_file*/);//устанавливаем данные для нашей переменной m
-            if (Model::name == str)
+            if (storage.at(i).getName() == str)
             {
                 found = true;
-                v.showContact(m);
+                v.showContact(storage[i]);
             }
         }
         if(!found)
         {
             v.print("This Contact Has Not Found!\n");
         }
-        dstrg.close();
+//        dstrg.close();
     }
-//    void contactList()
-//    {
-//        system("cls");
-//        std::string answr = v.m_showContacts();//получаем переменную answr;
-//        if (answr == "")
-//            read();
-//        else if (answr == "Incorect input")
-//            v.print(answr+"\n");
-//        else
-//            read(answr);
-//    }
     bool checkInput(char inputed, std::string array)
     {
-        for (unsigned int i = 0; i < array.size(); i++)
+        for (u_int  i = 0; i < array.size(); i++)
         {
             if(inputed == array[i])
                 return  false;
@@ -104,65 +89,48 @@ public:
     }
     void deleteContact()
     {
-        read();
-        v.m_deleteContact(&m);
-        //just checky
-//        if(m.getNum() == "blank" && m.getId() == "blank")
-//        {
-//           v.answr = 3;
-//        }
+        show();
+        v.m_deleteContact(m);
         if (m.getNum() == "blank")
         {
             v.answr = 2;
         }
-//        else if (m.getId() == "blank")
-//        {
-//             v.answr = 1;
-//        }
         else
         {
             v.answr = 0;
         }
-        //the way will be working until i'll get the Interet connection
-        std::ifstream file;
-//        int count = 0;
         std::vector<Model> updateStorage;
-        file.open("DataStorage.txt");
-        while (file >> Model::name >> Model::num/* >> Model::id_file*/)
+        for (u_int i =0;i<storage.size();i++)
         {
-            if (m.getName() == Model::name)
+            if (m.getName() == storage.at(i).getName())
             {
                 switch (v.answr)
                 {
                 case 0 :
-                    if (m.getNum() != Model::num)
-                        updateStorage.push_back(*this);
+                    if (m.getNum() != storage.at(i).getNum())
+                        updateStorage.push_back(storage.at(i));
                     break;
-//                case 1 :
-//                    if (m.getNum() != Model::num)
-//                        updateStorage.push_back(*this);
-//                    break;
-//                case 2 :
-//                    if (m.getId() != Model::id_file)
-//                        updateStorage.push_back(*this);
-//                    break;
                 case 2 : break;
                 }
             }
             else
-                updateStorage.push_back(*this);
+                updateStorage.push_back(storage.at(i));
         }
-        file.close();
         // updatedStorage сейчас должен быть заполнен не удаленными данными(данными котороые не попали под категорию удалить)
-        std::ofstream new_file;
-        new_file.open("DataStorage.txt");
-
-        for (unsigned int i = 0; i<updateStorage.size(); i++)
+        storage.clear();//чистим старые данные
+        for (u_int i = 0; i<updateStorage.size(); i++)
         {
-            new_file << updateStorage[i].getName() << "\t" << updateStorage[i].getNum()/* << "\t" << updateStorage[i].getId()*/ << "\n";
+            storage.push_back(updateStorage.at(i));
         }
 
-        new_file.close();
         system("cls");
+    }
+    void show()
+    {
+        system("cls");
+        for (u_int i = 0;i < storage.size();i++)
+        {
+            v.showContact(storage.at(i));
+        }
     }
 };

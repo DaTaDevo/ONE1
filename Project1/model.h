@@ -2,7 +2,7 @@
 class Model
 {
 protected:
-    std::string name,num/*,id_file*/;
+    std::string name,num;
 public:
     Model()
     {
@@ -12,18 +12,16 @@ public:
     {
         this->name      = m->name;
         this->num       = m->num;
-//        this->id_file   = m->id_file;
         return *this;
     }
     Model(std::string s_name,std::string s_num) : name(s_name), num(s_num)
     {
 
     }
-    void set(std::string s_name,std::string s_num/*,std::string s_id*/)
+    void set(std::string s_name,std::string s_num)
     {
         this->name      = s_name;
         this->num       = s_num;
-//        this->id_file   = s_id;
     }
     void setName(std::string s_name)
     {
@@ -33,10 +31,6 @@ public:
     {
         this->num = s_num;
     }
-//    Model* get()
-//    {
-//        return this;
-//    }
     std::string getName()
     {
         return this->name;
@@ -45,12 +39,4 @@ public:
     {
         return this->num;
     }
-//    void setId_file(std::string id)
-//    {
-//        this->id_file = id;
-//    }
-//    std::string getId()
-//    {
-//        return  this->id_file;
-//    }
 };
