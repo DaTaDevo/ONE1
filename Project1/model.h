@@ -4,6 +4,10 @@ class Model
 protected:
     std::string name,num;
 public:
+    operator std::string()
+    {
+       return name+"\t"+num+"\n";
+    }
     Model()
     {
 

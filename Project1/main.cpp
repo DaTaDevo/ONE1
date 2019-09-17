@@ -5,6 +5,6 @@ using namespace std;
 int main()
 {
     Controller ctrl;
-    ctrl.start();
+    ctrl.direct();
     return 0;
 }

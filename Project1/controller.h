@@ -9,101 +9,56 @@ class Controller : public Model
     View v;
     Model m;
     std::vector <Model> storage;
-    void fillStorage()
-    {
-        system("cls");
-        std::ifstream file;
-        file.open("DataStorage.txt");
-//        if (!file.is_open())
-//            return v.print("Storage is empty");
-        while (file >> name >> num)
-        {
-            m.set(name,num);//устанавливаем данные для нашей переменной m
-            storage.push_back(m);
-        }
-        if(storage.size()==0)
-            return v.print("Storage is empty\n");
-        file.close();
-    }
-    void saveStorage()
-    {
-        system("cls");
-        std::ofstream file;
-        file.open("DataStorage.txt");
-        for (u_int i = 0; i < storage.size(); i++)
-        {
-            file << storage.at(i).getName() <<"\t"<< storage.at(i).getNum() << "\n";
-        }
-    }
-public:
-    void start()
-    {
-        fillStorage();
-        while(true)
-        {
-        v.m_start();
-        int cmd = v.answr;
-        if (cmd==1)     saveContact();
-        if (cmd==2)     find();
-        if (cmd==3)     show();
-        if (cmd==4)     deleteContact();
-        if (cmd==5)     {saveStorage(); return;}
-        }
-    }
-private: 
     void saveContact()
     {
-        int err = v.m_addContact(m);
-        if (err == 1)
-            return;
         storage.push_back(m);
+        v.direction = "View::Menu";
     }
     void find()
     {
         system("cls");
-        std::string str = v.m_findContact();
-//        std::ifstream dstrg;
-//        dstrg.open("DataStorage.txt");
         bool found = false;
-        for (u_int i = 0; i < storage.size();i++)
+        if(v.answr[0] == '+')
         {
-            if (storage.at(i).getName() == str)
+            for (u_int i = 0; i < storage.size();i++)
             {
-                found = true;
-                v.showContact(storage[i]);
+                if (storage.at(i).getNum() == v.answr)
+                {
+                    found = true;
+                    v.print(storage[i]);
+                }
+            }
+        }
+        else
+        {
+            for (u_int i = 0; i < storage.size();i++)
+            {
+                if (storage.at(i).getName() == v.answr)
+                {
+                    found = true;
+                    v.print(storage[i]);
+                }
             }
         }
         if(!found)
         {
             v.print("This Contact Has Not Found!\n");
         }
-//        dstrg.close();
+        v.direction = "View::Menu";
     }
     void deleteContact()
     {
-        show();
-        v.m_deleteContact(m);
-        if (m.getNum() == "blank")
-        {
-            v.answr = 2;
-        }
-        else
-        {
-            v.answr = 0;
-        }
+//        show();
+        //check input
         std::vector<Model> updateStorage;
         for (u_int i =0;i<storage.size();i++)
         {
             if (m.getName() == storage.at(i).getName())
             {
-                switch (v.answr)
-                {
-                case 0 :
-                    if (m.getNum() != storage.at(i).getNum())
-                        updateStorage.push_back(storage.at(i));
-                    break;
-                case 2 : break;
-                }
+                if (m.getNum() == storage.at(i).getNum() || m.getNum() == "blank")
+                    continue;
+                else
+                    updateStorage.push_back(storage.at(i));
             }
             else
                 updateStorage.push_back(storage.at(i));
@@ -114,7 +69,7 @@ private:
         {
             storage.push_back(updateStorage.at(i));
         }
-
+        v.direction = "View::Menu";
         system("cls");
     }
     void show()
@@ -122,7 +77,83 @@ private:
         system("cls");
         for (u_int i = 0;i < storage.size();i++)
         {
-            v.showContact(storage.at(i));
+            v.print(storage.at(i));
+        }
+        v.direction = "View::Menu";
+    }
+
+public:
+    void direct()
+    {
+        //даем direction "ключ" для звызова нужной функции
+        // таблица "ключей" читайте в README.txt
+        while (true)
+        {
+            if (v.direction == "Add")
+            {
+                saveContact();
+            }
+            else if (v.direction == "Find")
+            {
+                find();
+            }
+            else if (v.direction == "Show")
+            {
+                show();
+            }
+            else if (v.direction == "Delete")
+            {
+                deleteContact();
+            }
+            else if (v.direction == "Exit")
+            {
+                return;
+            }
+            else if (v.direction == "View::Menu")
+            {
+                v.m_start();
+            }
+            else if (v.direction == "View::Add")
+            {
+                v.m_addContact(m);
+            }
+            else if (v.direction == "View::Find")
+            {
+                v.m_findContact();
+            }
+            else if (v.direction == "View::Delete")
+            {
+                show();
+                v.m_deleteContact(m);
+            }
+            else
+            {
+                v.print("Error in getting direction!!!");
+            }
+        }
+    }
+
+    Controller()
+    {
+        std::ifstream file;
+        file.open("DataStorage.txt");
+        while (file >> name >> num)
+        {
+            m.set(name,num);//устанавливаем данные для нашей переменной m
+            storage.push_back(m);
+        }
+        if(storage.size()==0)
+            v.print("Storage is empty\n");
+        file.close();
+    }
+    ~Controller()
+    {
+        system("cls");
+        std::ofstream file;
+        file.open("DataStorage.txt");
+        for (u_int i = 0; i < storage.size(); i++)
+        {
+            file << storage.at(i).getName() <<"\t"<< storage.at(i).getNum() << "\n";
         }
     }
 };
