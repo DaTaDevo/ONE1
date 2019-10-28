@@ -7,6 +7,24 @@ class View
 public:
     std::string direction = "View::Menu";//чтобы при старте программы открывалась меню
     std::string answr = "";// для избежание непредведенных значний;
+    void help()
+    {
+//        system("cls");
+        std::cout <<"1.How to use the 'Console Comands'\n"
+                    "2.About"<< std::endl;
+        std::cin >> answr;
+        if (checkrInput(true))
+            return;
+        if(answr == "1")
+        {
+            answr = "C:\\Users\\denix\\Documents\\GitHub\\ONE1\\Project1\\Information files\\help_about.txt";
+        }
+        else if (answr == "2")
+        {
+            answr = "C:\\Users\\denix\\Documents\\GitHub\\ONE1\\Project1\\Information files\\help_command.txt";
+        }
+        direction = "Read";
+    }
     void print(std::string text)
     {
         std::cout <<text;
@@ -19,7 +37,7 @@ public:
             direction = "View::Menu";
             return 1;
         }
-        else if (answr == "exit")
+        else if (answr == "quit")
         {
             system("cls");
             direction = "Exit";
@@ -73,7 +91,8 @@ public:
                     "2.Find Contact\n"
                     "3.Show Contacts\n"
                     "4.Delete Contact\n"
-                    "5.Exit"<< std::endl;
+                    "5.Help\n"
+                    "6.Quit"<< std::endl;
         int temp;
         std::cin >> temp;
         switch(temp)
@@ -82,12 +101,14 @@ public:
         case 2: {direction = "View::Find";break;}
         case 3: {direction = "Show";break;}
         case 4: {direction = "View::Delete";break;}
-        case 5: {direction = "Exit";break;}
+        case 5: {direction = "View::Help";break;}
+        case 6: {direction = "Quit";break;}
         }
+        system("cls");
     }
      void m_addContact(Model &contact)
     {
-        system("cls");
+//        system("cls");
         do
         {
             if (answr == "2")
@@ -120,7 +141,7 @@ public:
     }
     void m_findContact()
     {
-        system("cls");
+//        system("cls");
         print("Find with:\n");
         print("1.Name\n2.Number\n");
         std::cin >> answr;

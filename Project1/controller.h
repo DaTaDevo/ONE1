@@ -1,6 +1,4 @@
-//#include <model.h>
 #include <view.h>
-#include <assert.h>
 #include <fstream>
 #include <vector>
 typedef unsigned int u_int;
@@ -9,6 +7,23 @@ class Controller : public Model
     View v;
     Model m;
     std::vector <Model> storage;
+    void read()
+    {
+        std::ifstream file;
+        file.open(v.answr);
+        if (!file.is_open())
+        {
+            system("cls");
+            v.print("File Has NOT Open!\n");
+            v.direction = "View::Menu";
+            return;
+        }
+        system("cls");
+        while(getline(file,v.answr))
+        v.print(v.answr+"\n");
+        file.close();
+        v.direction = "View::Menu";
+    }
     void saveContact()
     {
         storage.push_back(m);
@@ -105,7 +120,11 @@ public:
             {
                 deleteContact();
             }
-            else if (v.direction == "Exit")
+            else if (v.direction == "Read")
+            {
+                read();
+            }
+            else if (v.direction == "Quit")
             {
                 return;
             }
@@ -126,9 +145,15 @@ public:
                 show();
                 v.m_deleteContact(m);
             }
+            else if (v.direction == "View::Help")
+            {
+                v.help();
+            }
             else
             {
                 v.print("Error in getting direction!!!");
+                v.direction = "Error";
+                return;
             }
         }
     }
@@ -148,6 +173,7 @@ public:
     }
     ~Controller()
     {
+        if (v.direction != "Error")
         system("cls");
         std::ofstream file;
         file.open("DataStorage.txt");

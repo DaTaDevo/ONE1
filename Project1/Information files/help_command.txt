@@ -1,0 +1,3 @@
+Information about Console Commands:
+quit - to quit from program.
+back - to come back to menu.
